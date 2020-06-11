@@ -1,6 +1,7 @@
 const experess = require('express')
 const router = experess.Router()
 const bookController = require('../controllers/book')
+const connection = require('../helpers/mysql')
 
 router.get('/', bookController.getAllBook)
 router.post('/', bookController.postBook)

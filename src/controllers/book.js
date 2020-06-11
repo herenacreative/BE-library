@@ -12,11 +12,15 @@ module.exports = {
     },
 
     postBook: async function(req, res) {
-        const setData = req.body
+
+        const files = req.file;
+        const setData = req.body;
         try {
-            const result = await bookModel.postBookModel(setData)
+            const result = await bookModel.postBookModel(files, setData)
+                // res.json(files);
             return helpers.response(res, 'success', result, 200)
         } catch (err) {
+            console.log(err, req.files, 'here')
             return helpers.response(res, 'fail', 'internal Server Error', 500)
         }
     },

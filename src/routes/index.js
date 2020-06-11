@@ -5,7 +5,7 @@ const authorRouter = require('./author')
 const genreRouter = require('./genre')
 
 router.use('/books', bookRouter)
-router.use('/author', authorRouter)
+router.use('/authors', authorRouter)
 router.use('/genres', genreRouter)
 
 module.exports = router
