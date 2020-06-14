@@ -5,6 +5,7 @@ module.exports = {
     getAllBook: async function(req, res) {
         try {
             const result = await bookModel.getAllBookModel()
+            console.log(result, 'a')
             return helpers.response(res, 'success', result, 200)
         } catch (err) {
             return helpers.response(res, 'fail', 'internal Server Error', 500)
@@ -12,15 +13,12 @@ module.exports = {
     },
 
     postBook: async function(req, res) {
-
-        const files = req.file;
         const setData = req.body;
+        setData.image = req.file ? req.file.filename : '';
         try {
-            const result = await bookModel.postBookModel(files, setData)
-                // res.json(files);
+            const result = await bookModel.postBookModel(setData)
             return helpers.response(res, 'success', result, 200)
         } catch (err) {
-            console.log(err, req.files, 'here')
             return helpers.response(res, 'fail', 'internal Server Error', 500)
         }
     },
@@ -28,6 +26,7 @@ module.exports = {
     putBook: async function(req, res) {
         const setData = req.body;
         const id = req.params.id;
+        setData.image = req.file ? req.file.filename : '';
         try {
             const result = await bookModel.putBookModel(setData, id)
             return helpers.response(res, 'success', result, 200)

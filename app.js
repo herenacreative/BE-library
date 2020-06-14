@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 8080
 require('dotenv').config()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -18,10 +18,10 @@ app.use(cors())
 
 connection.connect(function(error) {
     if (error) throw error;
-    console.log("databse has connected !")
+    console.log("Database Has Connected !")
 })
 
-app.use('/', routers)
+app.use('/api/v1', routers)
 
 app.listen(port, () => {
     console.log('listening to the port : ' + port)
