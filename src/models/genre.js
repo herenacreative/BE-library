@@ -12,6 +12,17 @@ module.exports = {
         })
     },
 
+    searchGenreModel: function(search, sort) {
+        return new Promise((resolve, reject) => {
+            connection.query(`SELECT * FROM genre_tb WHERE genre_name LIKE '%${search}%' ORDER BY '${sort}' ASC`, function(err, result) {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
+        })
+    },
+
     postGenreModel: function(setData) {
         return new Promise((resolve, reject) => {
             connection.query('INSERT INTO genre_tb SET ?', setData, function(err, result) {

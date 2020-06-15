@@ -1,6 +1,6 @@
 const helpers = require('../helpers/index')
 const genreModel = require('../models/genre')
-const Joi = require('@hapi/joi');
+
 
 module.exports = {
     getAllGenre: async function(req, res) {
@@ -12,15 +12,52 @@ module.exports = {
         }
     },
 
-    postGenre: async function(req, res) {
-        const schema = Joi.object({
-            genre_name: Joi.string().required()
-        });
-        const setData = req.body
-        const valid = await schema.validateAsync(result)
-        try {
+    Pagenation: async function(req, res) {
+        const sort = req.query.sort
+        const search = req.query.search
+        const page = parseInt(req.query.page)
+        const limit = parseInt(req.query.limit)
 
-            const result = await genreModel.postGenreModel(setData, valid)
+
+        const start = (page - 1) * limit
+        const end = page * limit
+
+        results = {}
+        results.next = {
+            page: page + 1,
+            limit: limit
+        }
+        results.preveuos = {
+            page: page - 1,
+            limit: limit
+        }
+        try {
+            if (!search && !sort) {
+                const result = await genreModel.getAllGenreModel()
+                results.results = result.slice(start, end)
+                return helpers.response(res, 'success', results, 200)
+            } else if (sort) {
+                const result = await genreModel.searchGenreModel(sort)
+                results.results = result.slice(start, end)
+                console.log(sort, 'g', results)
+                return helpers.response(res, 'success', results, 200)
+            } else if (search) {
+                const result = await genreModel.searchGenreModel(search)
+                results.results = result.slice(start, end)
+                return helpers.response(res, 'success', results, 200)
+            }
+            const result = await genreModel.searchGenreModel(search, sort)
+            results.results = result.slice(start, end)
+            return helpers.response(res, 'success', results, 200)
+        } catch (err) {
+            return helpers.response(res, 'fail', 'internal Server Error', 500)
+        }
+    },
+
+    postGenre: async function(req, res) {
+        const setData = req.body
+        try {
+            const result = await genreModel.postGenreModel(setData)
             return helpers.response(res, 'success', result, 200)
         } catch (err) {
             return helpers.response(res, 'fail', 'internal Server Error', 500)
