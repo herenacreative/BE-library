@@ -6,7 +6,8 @@ module.exports = {
         result.status = status === 'success' ? true : false;
 
         return res.status(result.statusCode).json({
-            success: result.status,
+            status: result.statusCode,
+            message: result.status,
             data: result.data
         })
     }

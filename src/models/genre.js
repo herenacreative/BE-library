@@ -12,9 +12,10 @@ module.exports = {
         })
     },
 
-    searchGenreModel: function(search, sort) {
+    searchPageSortModel: function(search, sort) {
         return new Promise((resolve, reject) => {
-            connection.query(`SELECT * FROM genre_tb WHERE genre_name LIKE '%${search}%' ORDER BY '${sort}' ASC`, function(err, result) {
+            const sql = `select *from genre_tb where genre_name like '%${search}%' order by ${sort}`
+            connection.query(sql, function(err, result) {
                 if (err) {
                     reject(err)
                 }
@@ -22,6 +23,18 @@ module.exports = {
             })
         })
     },
+
+    getIdGenreModel: function(id) {
+        return new Promise((resolve, reject) => {
+            connection.query('SELECT * FROM genre_tb WHERE genre_id=?', id, function(err, result) {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
+        })
+    },
+
 
     postGenreModel: function(setData) {
         return new Promise((resolve, reject) => {

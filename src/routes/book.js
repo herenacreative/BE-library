@@ -17,9 +17,10 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-router.get('/', midAuth.verifyJwtToken, bookController.getAllBook)
-router.post('/', upload.single('image'), bookController.postBook)
-router.put('/:id', upload.single('image'), bookController.putBook)
-router.delete('/:id', bookController.deleteBook)
+router.get('/', midAuth.verifyJwtToken, midAuth.authorize(['admin', 'user']), bookController.getAllBook)
+router.get('/:id', midAuth.verifyJwtToken, midAuth.authorize(['admin', 'user']), bookController.getIdBook)
+router.post('/', midAuth.verifyJwtToken, midAuth.authorize(['admin']), upload.single('image'), bookController.postBook)
+router.put('/:id', midAuth.verifyJwtToken, midAuth.authorize(['admin']), upload.single('image'), bookController.putBook)
+router.delete('/:id', midAuth.verifyJwtToken, midAuth.authorize(['admin']), bookController.deleteBook)
 
 module.exports = router

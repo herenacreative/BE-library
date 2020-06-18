@@ -12,6 +12,29 @@ module.exports = {
         })
     },
 
+    searchPageSortModel: function(search, sort) {
+        return new Promise((resolve, reject) => {
+            const sql = `select *from author_tb where author_name like '%${search}%' order by ${sort}`
+            connection.query(sql, function(err, result) {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
+        })
+    },
+
+    getIdAuthorModel: function(id) {
+        return new Promise((resolve, reject) => {
+            connection.query('SELECT * FROM author_tb WHERE author_id=?', id, function(err, result) {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
+        })
+    },
+
     postAuthorModel: function(setData) {
         return new Promise((resolve, reject) => {
             connection.query('INSERT INTO author_tb SET ?', setData, function(err, result) {

@@ -21,7 +21,7 @@ connection.connect(function(error) {
     console.log("Database Has Connected !")
 })
 
-app.use('/api/v1', routers)
+app.use('/v1', routers)
 
 app.listen(port, () => {
     console.log('listening to the port : ' + port)

@@ -1,4 +1,5 @@
 const connection = require('../helpers/mysql')
+    // const { resolve } = require('path')
 
 module.exports = {
     registerModel: function(setData) {
@@ -26,5 +27,16 @@ module.exports = {
                 resolve(result)
             })
         })
-    }
+    },
+
+    // refreshTokenModel: function() {
+    //     return new Promise((resolve, reject) => {
+    //         connection.query('SELECT * FROM auth_tb WHERE token=?', function(error, result) {
+    //             if (error) {
+    //                 reject(error)
+    //             }
+    //             resolve(result)
+    //         })
+    //     })
+    // }
 }

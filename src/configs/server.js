@@ -5,7 +5,8 @@ const config = {
         password: process.env.MYSQL_PASSWORD,
         database: process.env.MYSQL_DATABASE
     },
-    jwtSecretKey: process.env.JWT_SECRET
+    jwtSecretKey: process.env.JWT_SECRET,
+    jwtSecretKeyNew: process.env.JWT_SECRET_REFRESH
 };
 
 module.exports = config;
