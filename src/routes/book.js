@@ -8,14 +8,21 @@ const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, 'uploads/')
     },
-    filename: function(req, file, cb) {
+    // filename: function(req, file, cb) {
+    //     const splitName = file.originalname.split('.');
+    //     const ext = splitName.pop();
+    //     const newName = splitName.join('-');
+    //     cb(null, `${newName}-${Date.now()}.${ext}`);
+    // }
+    filename: function (req, file, cb) {
         const splitName = file.originalname.split('.');
         const ext = splitName.pop();
         const newName = splitName.join('-');
-        cb(null, `${newName}-${Date.now()}.${ext}`);
+        cb(null, `${newName}.${ext}`);
     }
 })
 const upload = multer({ storage: storage })
+// const upload = multer({ dest: 'uploads/' })
 
 router.get('/', midAuth.verifyJwtToken, midAuth.authorize(['admin', 'user']), bookController.getAllBook)
 router.get('/:id', midAuth.verifyJwtToken, midAuth.authorize(['admin', 'user']), bookController.getIdBook)

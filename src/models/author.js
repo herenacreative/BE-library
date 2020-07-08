@@ -12,10 +12,11 @@ module.exports = {
         })
     },
 
-    searchPageSortModel: function(search, sort) {
+    searchPageSortModel: function(search, sort, limit, sort) {
         return new Promise((resolve, reject) => {
-            const sql = `select *from author_tb where author_name like '%${search}%' order by ${sort}`
+            const sql = `select *from author_tb where author_name like '%${search}%' order by ${sort} desc limit ${limit} offset ${page}`
             connection.query(sql, function(err, result) {
+                console.log(result, 'or', err)
                 if (err) {
                     reject(err)
                 }

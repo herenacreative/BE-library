@@ -6,12 +6,11 @@ module.exports = {
     getAllAuthor: async function(req, res) {
         const sort = req.query.sort
         const search = req.query.search
-        const page = parseInt(req.query.page)
-        const limit = parseInt(req.query.limit)
-
+        const page = req.query.page || 1
+        const limit = req.query.limit || 5
         const start = (page - 1) * limit
         const end = page * limit
-
+        
         results = {}
         results.next = {
             page: page + 1,
@@ -29,6 +28,7 @@ module.exports = {
             } else if (sort && !search) {
                 const result = await authorModel.searchPageSortModel('', sort)
                 results.results = result.slice(start, end)
+                console.log(results.results)
                 return helpers.response(res, 'success', results, 200)
             } else if (search && !sort) {
                 const result = await authorModel.searchPageSortModel(search, 'created_at')
@@ -39,6 +39,7 @@ module.exports = {
             results.results = result.slice(start, end)
             return helpers.response(res, 'success', results, 200)
         } catch (err) {
+            console.log(err, 'erra')
             return helpers.response(res, 'fail', 'internal Server Error', 500)
         }
     },

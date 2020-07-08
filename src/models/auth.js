@@ -5,6 +5,7 @@ module.exports = {
     registerModel: function(setData) {
         return new Promise((resolve, reject) => {
             connection.query('INSERT INTO user_tb SET ?', setData, function(error, result) {
+                
                 if (error) {
                     reject(error)
                 }

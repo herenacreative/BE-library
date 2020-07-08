@@ -5,8 +5,8 @@ module.exports = {
     getAllBook: async function(req, res) {
         const sort = req.query.sort
         const search = req.query.search
-        const page = parseInt(req.query.page)
-        const limit = parseInt(req.query.limit)
+        const page = parseInt(req.query.page)   || 1
+        const limit = parseInt(req.query.limit) || 6
 
         const start = (page - 1) * limit
         const end = page * limit
@@ -26,18 +26,19 @@ module.exports = {
                 results.results = result.slice(start, end)
                 return helpers.response(res, 'success', results, 200)
             } else if (sort && !search) {
-                const result = await bookModel.searchPageSortModel('', sort)
+                const result = await bookModel.searchPageSortModel('', sort,  page, limit)
                 results.results = result.slice(start, end)
                 return helpers.response(res, 'success', results, 200)
             } else if (search && !sort) {
-                const result = await bookModel.searchPageSortModel(search, 'created_at')
+                const result = await bookModel.searchPageSortModel(search, 'book_name', page, limit)
                 results.results = result.slice(start, end)
                 return helpers.response(res, 'success', results, 200)
             }
-            const result = await bookModel.searchPageSortModel(search, sort)
+            const result = await bookModel.searchPageSortModel(search, sort, page, limit)
             results.results = result.slice(start, end)
             return helpers.response(res, 'success', results, 200)
         } catch (err) {
+            console.log(err)
             return helpers.response(res, 'fail', 'internal Server Error', 500)
         }
     },
