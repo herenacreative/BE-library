@@ -65,5 +65,57 @@ module.exports = {
             console.log(err);
             return helpers.response(res, 'fail', 'internal Server Error', 500)
         }
-    }
+    },
+
+    getAllUser: async function(req, res) {
+        const sort = req.query.sort
+        const search = req.query.search
+        const page = req.query.page || 1
+        const limit = req.query.limit || 5
+        const start = (page - 1) * limit
+        const end = page * limit
+        
+        results = {}
+        results.next = {
+            page: page + 1,
+            limit: limit
+        }
+        results.preveuos = {
+            page: page - 1,
+            limit: limit
+        }
+        try {
+            if (!search && !sort) {
+                const result = await authModel.getAllUserModel()
+                results.results = result.slice(start, end)
+                return helpers.response(res, 'success', results, 200)
+            } else if (sort && !search) {
+                const result = await authModel.searchPageSortModel('', sort)
+                results.results = result.slice(start, end)
+                console.log(results.results)
+                return helpers.response(res, 'success', results, 200)
+            } else if (search && !sort) {
+                const result = await authModel.searchPageSortModel(search, 'created_at')
+                results.results = result.slice(start, end)
+                return helpers.response(res, 'success', results, 200)
+            }
+            const result = await authModel.searchPageSortModel(search, sort)
+            results.results = result.slice(start, end)
+            return helpers.response(res, 'success', results, 200)
+        } catch (err) {
+            console.log(err, 'erra')
+            return helpers.response(res, 'fail', 'internal Server Error', 500)
+        }
+    },
+
+    getIdUser: async function(req, res) {
+        const id = req.params.id;
+        try {
+            const result = await authModel.getIdUserModel(id)
+            return helpers.response(res, 'success', result, 200)
+        } catch (err) {
+            console.log(err)
+            return helpers.response(res, 'fail', 'internal server error', 500)
+        }
+    },
 }

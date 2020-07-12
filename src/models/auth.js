@@ -40,4 +40,38 @@ module.exports = {
     //         })
     //     })
     // }
+
+    getAllUserModel: function() {
+        return new Promise((resolve, reject) => {
+            connection.query('SELECT * FROM user_tb', function(err, result) {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
+        })
+    },
+
+    searchPageSortModel: function(search, sort, limit, page) {
+        return new Promise((resolve, reject) => {
+            const sql = `select * from user_tb where fullname like '%${search}%' order by ${sort} limit ${limit} offset ${page}`
+            connection.query(sql, function(err, result) {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
+        })
+    },
+
+    getIdUserModel: function(id) {
+        return new Promise((resolve, reject) => {
+            connection.query('SELECT * FROM user_tb WHERE user_id=?', id, function(err, result) {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
+        })
+    },
 }
