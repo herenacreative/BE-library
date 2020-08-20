@@ -5,12 +5,12 @@ module.exports = {
     registerModel: function(setData) {
         return new Promise((resolve, reject) => {
             connection.query('INSERT INTO user_tb SET ?', setData, function(error, result) {
-                
+                console.log(result, 'r')
                 if (error) {
                     reject(error)
                 }
                 const newData = {
-                    id: result.insertId,
+                    id: result,
                     ...setData
                 };
 

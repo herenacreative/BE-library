@@ -4,7 +4,7 @@ module.exports = {
   getAllBookModel: function () {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT b.book_id, b.book_name, b. description, b.image, g.genre_name, a.author_name, b.status, b.stock FROM book_tb b INNER JOIN author_tb a ON b.author_id=a.author_id INNER JOIN genre_tb g ON b.genre_id=g.genre_id",
+        "SELECT b.book_id, b.book_name, b. description, b.image, g.genre_id, g.genre_name, a.author_id,  a.author_name, b.status, b.stock FROM book_tb b INNER JOIN author_tb a ON b.author_id=a.author_id INNER JOIN genre_tb g ON b.genre_id=g.genre_id",
         function (err, result) {
           if (err) {
             reject(err);

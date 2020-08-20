@@ -10,7 +10,7 @@ module.exports = {
         const salt = bcrypt.genSaltSync(10)
         const hashPass = bcrypt.hashSync(setData.password, salt)
         setData.password = hashPass;
-        setData.role = "user";
+        // setData.role = "user";
         try {
             const result = await authModel.registerModel(setData);
             delete result.password
